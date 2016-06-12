@@ -45,7 +45,7 @@ type cache struct {
 
 var _ Cache = (*cache)(nil)
 
-var StoreIdUrl *url.URL
+var storeIdUrl *url.URL
 
 type Header struct {
 	http.Header
@@ -53,13 +53,13 @@ type Header struct {
 }
 
 
-func SetStoreIdUrl(storeidurl string){
+func setStoreIdUrl(storeidurl string){
 	u, err := url.Parse(storeidurl)
 	if err != nil {
-		StoreIdUrl = u
+		storeIdUrl = u
 	} else {
 		u, _ := url.Parse("http://dummy/")
-		StoreIdUrl = u
+		storeIdUrl = u
 	}
 }
 
