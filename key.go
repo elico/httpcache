@@ -23,7 +23,8 @@ func NewKey(method string, u *url.URL, h http.Header) Key {
 
 // RequestKey generates a Key for a request
 func NewRequestKey(r *http.Request) Key {
-	URL := r.URL
+	// Canged the way we treat the URL to prevent the original request URL modification
+	URL, _ := url.Parse(r.URL.String())
 
 	switch{
 	case (strings.HasSuffix(URL.Host,".sdarot.pm") && strings.HasPrefix(URL.Host,"media")  && strings.HasSuffix(URL.Path, ".mp4") ):
