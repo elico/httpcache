@@ -29,6 +29,8 @@ func NewRequestKey(r *http.Request) Key {
 	case (strings.HasSuffix(URL.Host,".sdarot.pm") && strings.HasPrefix(URL.Host,"media")  && strings.HasSuffix(URL.Path, ".mp4") ):
 		debugf("A sdarot.pm video, about to strip query terms from the request key", URL)
 		URL.RawQuery = ""
+		debugf("A sdarot.pm video, After striping query terms from the request key", URL)
+		debugf("A sdarot.pm video, the request", r)
 	default:
 		debugf("Not a sdarot.pm video", URL)
 	}
