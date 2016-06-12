@@ -22,10 +22,12 @@ func NewKey(method string, u *url.URL, h http.Header) Key {
 }
 
 // RequestKey generates a Key for a request
-func NewRequestKey(r *http.Request) Key {
+func NewRequestKey(r *http.Request, storeIdUrl *url.URL) Key {
 	// Canged the way we treat the URL to prevent the original request URL modification
 	URL, _ := url.Parse(r.URL.String())
 
+	debugf("StoreID url", storeIdUrl )
+	// Here run a query against the StoreID api
 	switch{
 	case (strings.HasSuffix(URL.Host,".sdarot.pm") && strings.HasPrefix(URL.Host,"media")  && strings.HasSuffix(URL.Path, ".mp4") ):
 		debugf("A sdarot.pm video, about to strip query terms from the request key", URL)

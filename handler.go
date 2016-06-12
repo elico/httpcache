@@ -65,7 +65,7 @@ func NewHandler(cache Cache, upstream http.Handler, storeIdUrl string) *Handler 
 }
 
 func (h *Handler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	cReq, err := newCacheRequest(r)
+	cReq, err := newCacheRequest(r, h.storeIdUrl)
 	if err != nil {
 		http.Error(rw, "invalid request: "+err.Error(),
 			http.StatusBadRequest)
@@ -440,7 +440,7 @@ type cacheRequest struct {
 	CacheControl CacheControl
 }
 
-func newCacheRequest(r *http.Request) (*cacheRequest, error) {
+func newCacheRequest(r *http.Request, storeIdUrl *url.URL) (*cacheRequest, error) {
 	cc, err := ParseCacheControl(r.Header.Get("Cache-Control"))
 	if err != nil {
 		return nil, err
@@ -452,7 +452,7 @@ func newCacheRequest(r *http.Request) (*cacheRequest, error) {
 
 	return &cacheRequest{
 		Request:      r,
-		Key:          NewRequestKey(r),
+		Key:          NewRequestKey(r, storeIdUrl),
 		Time:         Clock(),
 		CacheControl: cc,
 	}, nil
