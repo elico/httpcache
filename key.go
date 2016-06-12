@@ -25,6 +25,13 @@ func NewKey(method string, u *url.URL, h http.Header) Key {
 func NewRequestKey(r *http.Request) Key {
 	URL := r.URL
 
+	switch{
+	case (strings.HasSuffix(URL.Host,".sdarot.pm") && strings.HasPrefix(URL.Host,"media")  && strings.HasSuffix(URL.Path, ".mp4") ):
+		debugf("A sdarot.pm video, about to strip query terms from the request key", URL)
+		URL.RawQuery = ""
+	default:
+		debugf("Not a sdarot.pm video", URL)
+	}
 	if location := r.Header.Get("Content-Location"); location != "" {
 		u, err := url.Parse(location)
 		if err == nil {
@@ -42,6 +49,7 @@ func NewRequestKey(r *http.Request) Key {
 		}
 	}
 
+	// Here we can set the URL StoreID
 	return NewKey(r.Method, URL, r.Header)
 }
 
