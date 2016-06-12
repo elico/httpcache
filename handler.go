@@ -8,6 +8,7 @@ import (
 	"log"
 	"math"
 	"net/http"
+	"net/url"
 	"strconv"
 	"sync"
 	"time"
@@ -46,14 +47,20 @@ type Handler struct {
 	upstream  http.Handler
 	validator *Validator
 	cache     Cache
+	storeIdUrl *url.URL
 }
 
-func NewHandler(cache Cache, upstream http.Handler) *Handler {
+func NewHandler(cache Cache, upstream http.Handler, storeIdUrl string) *Handler {
+	u , err := url.Parse(storeIdUrl)
+	if err != nil {
+		u, _ = url.Parse("http://dummy/")
+	}
 	return &Handler{
 		upstream:  upstream,
 		cache:     cache,
 		validator: &Validator{upstream},
 		Shared:    false,
+		storeIdUrl:	u,
 	}
 }
 

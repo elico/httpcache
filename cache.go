@@ -10,7 +10,6 @@ import (
 	"log"
 	"net/http"
 	"net/textproto"
-	"net/url"
 	"os"
 	pathutil "path"
 	"strconv"
@@ -45,22 +44,9 @@ type cache struct {
 
 var _ Cache = (*cache)(nil)
 
-var storeIdUrl *url.URL
-
 type Header struct {
 	http.Header
 	StatusCode int
-}
-
-
-func setStoreIdUrl(storeidurl string){
-	u, err := url.Parse(storeidurl)
-	if err != nil {
-		storeIdUrl = u
-	} else {
-		u, _ := url.Parse("http://dummy/")
-		storeIdUrl = u
-	}
 }
 
 // NewCache returns a cache backend off the provided VFS
