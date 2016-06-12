@@ -200,6 +200,7 @@ func (c *cache) Freshen(res *Resource, keys ...string) error {
 }
 
 func hashKey(key string) string {
+	debugf("Hasing key \"%s\"", key)
 	h := sha256.New()
 	io.WriteString(h, key)
 	return fmt.Sprintf("%x", h.Sum(nil))
