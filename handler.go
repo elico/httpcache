@@ -489,20 +489,24 @@ func (r *cacheRequest) isStateChanging() bool {
 
 func (r *cacheRequest) isCacheable() bool {
 	if !(r.Method == "GET" || r.Method == "HEAD") {
+		debugf("Method not GET or HEAD non cachable")
 		return false
 	}
 
 	if r.Header.Get("If-Match") != "" ||
 		r.Header.Get("If-Unmodified-Since") != "" ||
 		r.Header.Get("If-Range") != "" {
+		debugf("If-Match/Unmofified-Since/Range non cacheable")
 		return false
 	}
 
 	if maxAge, ok := r.CacheControl.Get("max-age"); ok && maxAge == "0" {
+		debugf("Max Age == 0 non-cachable")
 		return false
 	}
 
 	if r.CacheControl.Has("no-store") || r.CacheControl.Has("no-cache") {
+		debugf("Cache Request no-cache or no-store non-cachable", r.CacheControl)
 		return false
 	}
 
