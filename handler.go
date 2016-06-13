@@ -501,8 +501,8 @@ func (r *cacheRequest) isCacheable() bool {
 	}
 
 	if maxAge, ok := r.CacheControl.Get("max-age"); ok && maxAge == "0" {
-		debugf("Max Age == 0, should non-cachable, bypassing")
-//		return false
+		debugf("Max Age == 0, should non-cachable") 
+		return false //Bypassing resulted in a catastrophy
 	}
 
 	if r.CacheControl.Has("no-store") || r.CacheControl.Has("no-cache") {
