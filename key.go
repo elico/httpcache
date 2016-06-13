@@ -71,7 +71,9 @@ func (k Key) Vary(varyHeader string, r *http.Request) Key {
 	k2 := k
 
 	for _, header := range strings.Split(varyHeader, ", ") {
-		k2.vary = append(k2.vary, header+"="+r.Header.Get(header))
+		if len(r.Header.Get(header)) > 0 {
+			k2.vary = append(k2.vary, header+"="+r.Header.Get(header))
+		}
 	}
 
 	return k2
