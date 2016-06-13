@@ -404,6 +404,9 @@ func (h *Handler) storeResource(res *Resource, r *cacheRequest) {
 // request, or nil and ErrNotFoundInCache if none is found
 func (h *Handler) lookup(req *cacheRequest) (*Resource, error) {
 	res, err := h.cache.Retrieve(req.Key.String())
+	debugf("Ran one lookup with the key", req.Key.String())
+	debugf("Result is", res)
+	debugf("Result err is", err)
 
 	// HEAD requests can possibly be served from GET
 	if err == ErrNotFoundInCache && req.Method == "HEAD" {
@@ -424,8 +427,12 @@ func (h *Handler) lookup(req *cacheRequest) (*Resource, error) {
 
 	// Secondary lookup for Vary
 	if vary := res.Header().Get("Vary"); vary != "" {
+		debugf("Running a secondary lookup with Vary")
+		debugf("Vary", vary)
+		debugf("Vary Key", req.Key.Vary(vary, req.Request).String())
 		res, err = h.cache.Retrieve(req.Key.Vary(vary, req.Request).String())
 		if err != nil {
+			debugf("Vary fetch err", err)
 			return res, err
 		}
 	}
