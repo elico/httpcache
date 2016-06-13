@@ -27,6 +27,7 @@ const (
 
 // Returned when a resource doesn't exist
 var ErrNotFoundInCache = errors.New("Not found in cache")
+var ErrFoundWithZeroInCache = errors.New("Found 0 size file in cache")
 
 type Cache interface {
 	Header(key string) (Header, error)
@@ -163,8 +164,9 @@ func (c *cache) Retrieve(key string) (*Resource, error) {
 	if err != nil {
 		return nil, err
 	}
+	debugf("Body file on disk is for", key)
 	if fi.Size() == 0 {
-		return nil, ErrNotFoundInCache
+		return nil, ErrFoundWithZeroInCache
 	}
 
 	h, err := c.Header(key)
