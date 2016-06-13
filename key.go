@@ -69,15 +69,10 @@ func (k Key) ForMethod(method string) Key {
 // Vary returns a Key that is varied on particular headers in a http.Request
 func (k Key) Vary(varyHeader string, r *http.Request) Key {
 	k2 := k
-	debugf("Request details before handling Vary", r)
-	debugf("Vary Header before split", varyHeader)
+//	debugf("Request details before handling Vary", r)
+//	debugf("Vary Header before split", varyHeader)
 	for _, header := range strings.Split(varyHeader, ", ") {
-		debugf("Testing Vary header", header)
-		debugf("Vary header content1", r.Header.Get(header))
-//		if len(r.Header.Get(header)) > 0 {
-			debugf("Vary header content2", r.Header.Get(header))
-			k2.vary = append(k2.vary, header+"="+r.Header.Get(header))
-//		}
+		k2.vary = append(k2.vary, header+"="+r.Header.Get(header))
 	}
 	debugf("Vary key2", k)
 	return k2
