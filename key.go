@@ -69,7 +69,7 @@ func (k Key) ForMethod(method string) Key {
 // Vary returns a Key that is varied on particular headers in a http.Request
 func (k Key) Vary(varyHeader string, r *http.Request) Key {
 	k2 := k
-
+	debugf("Vary Header before split", varyHeader)
 	for _, header := range strings.Split(varyHeader, ", ") {
 		debugf("Testing Vary header", header)
 		debugf("Vary header content1", r.Header.Get(header))
