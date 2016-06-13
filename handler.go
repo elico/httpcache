@@ -455,7 +455,7 @@ type cacheRequest struct {
 }
 
 func newCacheRequest(r *http.Request, storeIdUrl *url.URL) (*cacheRequest, error) {
-	debugf("newCacheRequest headers status", r)
+//	debugf("newCacheRequest headers status", r)
 	cc, err := ParseCacheControl(r.Header.Get("Cache-Control"))
 	if err != nil {
 		return nil, err
@@ -465,7 +465,7 @@ func newCacheRequest(r *http.Request, storeIdUrl *url.URL) (*cacheRequest, error
 		return nil, errors.New("Host header can't be empty")
 	}
 
-	debugf("newCacheRequest headers status", r)
+//	debugf("newCacheRequest headers status", r)
 	return &cacheRequest{
 		Request:      r,
 		Key:          NewRequestKey(r, storeIdUrl),
