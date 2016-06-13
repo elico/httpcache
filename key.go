@@ -73,10 +73,11 @@ func (k Key) Vary(varyHeader string, r *http.Request) Key {
 	for _, header := range strings.Split(varyHeader, ", ") {
 		debugf("Testung Vary header", header)
 		if len(r.Header.Get(header)) > 0 {
+			debugf("Vary header content", r.Header.Get(header))
 			k2.vary = append(k2.vary, header+"="+r.Header.Get(header))
 		}
 	}
-
+	debugf("Vary key2", k)
 	return k2
 }
 
