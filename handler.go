@@ -73,7 +73,7 @@ func (h *Handler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	debugf("Request headers details after a while1", r.Header)
+//	debugf("Request headers details after a while1", r.Header)
 
 	if !cReq.isCacheable() {
 		debugf("request not cacheable")
@@ -81,7 +81,7 @@ func (h *Handler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		h.pipeUpstream(rw, cReq)
 		return
 	}
-	debugf("Request headers details after a while2", r.Header)
+//	debugf("Request headers details after a while2", r.Header)
 
 	res, err := h.lookup(cReq)
 	if err != nil && err != ErrNotFoundInCache {
@@ -89,7 +89,7 @@ func (h *Handler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 			http.StatusInternalServerError)
 		return
 	}
-	debugf("Request headers details after a while3", r.Header)
+//	debugf("Request headers details after a while3", r.Header)
 
 	cacheType := "private"
 	if h.Shared {
