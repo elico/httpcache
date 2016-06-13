@@ -389,7 +389,9 @@ func (h *Handler) storeResource(res *Resource, r *cacheRequest) {
 
 		// store a secondary vary version
 		if vary := headers.Get("Vary"); vary != "" {
+			debugf("Store secondary vary version key", r.Key.Vary(vary, r.Request).String())
 			keys = append(keys, r.Key.Vary(vary, r.Request).String())
+			debugf("Vary keys, might need cleanup", keys)
 		}
 
 		if err := h.cache.Store(res, keys...); err != nil {
