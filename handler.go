@@ -84,7 +84,12 @@ func (h *Handler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 //	debugf("Request headers details after a while2", r.Header)
 
 	res, err := h.lookup(cReq)
-	if err != nil && ( err != ErrNotFoundInCache || err != ErrFoundWithZeroInCache ) {
+	switch {
+	case  err != nil && err == ErrNotFoundInCache:
+		;;
+	case err != nil && err == ErrFoundWithZeroInCache:
+		;;
+	default:
 		http.Error(rw, "lookup error: "+err.Error(),
 			http.StatusInternalServerError)
 		return
