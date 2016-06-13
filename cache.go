@@ -158,6 +158,15 @@ func (c *cache) Retrieve(key string) (*Resource, error) {
 		}
 		return nil, err
 	}
+
+	fi, err := c.fs.Stat(bodyPrefix + formatPrefix + hashKey(key))
+	if err != nil {
+		return nil, err
+	}
+	if fi.Size() == 0 {
+		return nil, ErrNotFoundInCache
+	}
+
 	h, err := c.Header(key)
 	if err != nil {
 		if vfs.IsNotExist(err) {
