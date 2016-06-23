@@ -35,8 +35,15 @@ func NewRequestKey(r *http.Request, storeIdUrl *url.URL) Key {
 		URL.Host = "sdarot.pm.media.ngtech.internal"
 		debugf("A sdarot.pm video, After striping query terms from the request key", URL)
 		debugf("A sdarot.pm video, the request", r)
+	case (strings.HasSuffix(URL.Host,".download.windowsupdate.com") && (strings.HasSuffix(URL.Path, ".exe")  || strings.HasSuffix(URL.Path, ".cab")) ):
+		debugf("A windows updates domain and file, about to strip query terms from the request key", URL)
+		URL.RawQuery = ""
+		URL.Host = "windows.update.ngtech.internal"
+		debugf("A windows updates file, After striping query terms from the request key", URL)
+		debugf("A windows updates file, the request", r)
+
 	default:
-		debugf("Not a sdarot.pm video", URL)
+		debugf("Not a special file", URL)
 	}
 	if location := r.Header.Get("Content-Location"); location != "" {
 		u, err := url.Parse(location)
