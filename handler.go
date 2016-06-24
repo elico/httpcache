@@ -89,10 +89,9 @@ func (h *Handler) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		;;
 	case err != nil && err == ErrFoundWithZeroInCache:
 		;;
-	case err != nil:
+	case err == nil:
 		debugf("nil err", err)
 		;;
-
 	default:
 		http.Error(rw, "lookup error: "+err.Error(),
 			http.StatusInternalServerError)
