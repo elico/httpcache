@@ -35,7 +35,7 @@ func NewRequestKey(r *http.Request, storeIdUrl *url.URL) Key {
 		URL.Host = "sdarot.pm.media.ngtech.internal"
 		debugf("A sdarot.pm video, After striping query terms from the request key", URL)
 		debugf("A sdarot.pm video, the request", r)
-	case (strings.HasSuffix(URL.Host,".download.windowsupdate.com") && (strings.HasSuffix(URL.Path, ".exe")  || strings.HasSuffix(URL.Path, ".cab")) ):
+	case (strings.HasSuffix(URL.Host,".download.windowsupdate.com") && (strings.HasSuffix(URL.Path, ".exe")  || strings.HasSuffix(URL.Path, ".cab") || strings.HasSuffix(URL.Path, ".esd") ):
 		debugf("A windows updates domain and file, about to strip query terms from the request key", URL)
 		URL.RawQuery = ""
 		URL.Host = "windows.update.ngtech.internal"
